@@ -21,7 +21,11 @@ module.exports = {
   servers: [
     {
       url: env.appUrl,
-      description: 'API de produção'
+      description: 'Production API'
+    },
+    {
+      url: 'http://localhost:3001/api',
+      description: 'Test API'
     }
   ],
   paths: {
