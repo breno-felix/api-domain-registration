@@ -219,7 +219,7 @@ module.exports = {
           {
             name: 'domain_id',
             in: 'path',
-            description: 'ID of domain to update',
+            description: 'ID of domain to delete',
             required: true,
             schema: {
               type: 'string',
@@ -241,6 +241,54 @@ module.exports = {
           },
           403: {
             $ref: '#/components/responses/Forbidden'
+          },
+          500: {
+            $ref: '#/components/responses/ServerError'
+          }
+        }
+      }
+    },
+    '/show-domain/{domain_id}': {
+      get: {
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        summary: 'Show a domain',
+        description: 'This endpoint show a domain and needed login.',
+        tags: ['Domain'],
+        parameters: [
+          {
+            name: 'domain_id',
+            in: 'path',
+            description: 'ID of domain to show',
+            required: true,
+            schema: {
+              type: 'string',
+              description: "The domain's id, it must exist",
+              required: true,
+              example: '63e41caae48b4160afb18192'
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: 'Ok',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  $ref: '#/components/schemas/Domain'
+                }
+              }
+            }
+          },
+          400: {
+            $ref: '#/components/responses/BadRequest'
+          },
+          401: {
+            $ref: '#/components/responses/Unauthorized'
           },
           500: {
             $ref: '#/components/responses/ServerError'
