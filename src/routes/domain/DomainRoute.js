@@ -11,5 +11,11 @@ route.patch(
   authAdminMiddleware,
   DomainController.update
 )
+route.delete(
+  '/delete-domain/:domain_id',
+  authMiddleware,
+  authAdminMiddleware,
+  DomainController.destroy
+)
 
 module.exports = route

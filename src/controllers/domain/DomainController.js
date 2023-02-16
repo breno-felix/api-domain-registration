@@ -77,4 +77,26 @@ const update = async (request, response) => {
     )
 }
 
-module.exports = { store, index, update }
+const destroy = async (request, response) => {
+  const { domain_id } = request.params
+  const domain = await DomainService.loadById(domain_id)
+  if (!domain) {
+    return response
+      .status(400)
+      .json({ error: 'Make sure your domain is correct' })
+  }
+
+  try {
+    await DomainService.deleteById(domain_id)
+  } catch (error) {
+    return response.status(400).json({ error: error.message })
+  }
+
+  return response
+    .status(204)
+    .json(
+      'The request was successfully processed but is not returning any content.'
+    )
+}
+
+module.exports = { store, index, update, destroy }
