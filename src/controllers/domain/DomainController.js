@@ -43,4 +43,31 @@ const index = async (request, response) => {
   return response.status(200).json(domains)
 }
 
-module.exports = { store, index }
+const update = async (request, response) => {
+  const schema = yup.object().shape({
+    status: yup.string().required()
+  })
+
+  try {
+    await schema.validateSync(request.body, { abortEarly: false })
+  } catch (err) {
+    return response.status(400).json({ error: err.errors })
+  }
+
+  const { status } = request.body
+  const { domain_id } = request.params
+
+  try {
+    await DomainService.updateOne(domain_id, status)
+  } catch (error) {
+    return response.status(400).json({ error: error.message })
+  }
+
+  return response
+    .status(204)
+    .json(
+      'The request was successfully processed but is not returning any content.'
+    )
+}
+
+module.exports = { store, index, update }
