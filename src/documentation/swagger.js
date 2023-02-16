@@ -117,6 +117,40 @@ module.exports = {
           }
         }
       }
+    },
+    '/index-domain': {
+      get: {
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        summary: 'Show all domains',
+        description: 'This endpoint show all domains and needed login.',
+        tags: ['Domain'],
+        responses: {
+          200: {
+            description: 'Ok',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    $ref: '#/components/schemas/Domain'
+                  }
+                }
+              }
+            }
+          },
+          401: {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          500: {
+            $ref: '#/components/responses/ServerError'
+          }
+        }
+      }
     }
   },
   components: {
