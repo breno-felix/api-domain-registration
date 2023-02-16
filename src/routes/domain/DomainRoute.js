@@ -17,5 +17,6 @@ route.delete(
   authAdminMiddleware,
   DomainController.destroy
 )
+route.get('/show-domain/:domain_id', authMiddleware, DomainController.show)
 
 module.exports = route

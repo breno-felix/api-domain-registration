@@ -99,4 +99,16 @@ const destroy = async (request, response) => {
     )
 }
 
-module.exports = { store, index, update, destroy }
+const show = async (request, response) => {
+  const { domain_id } = request.params
+  const domain = await DomainService.loadById(domain_id)
+  if (!domain) {
+    return response
+      .status(400)
+      .json({ error: 'Make sure your domain is correct' })
+  }
+
+  return response.status(200).json(domain)
+}
+
+module.exports = { store, index, update, destroy, show }
