@@ -151,6 +151,54 @@ module.exports = {
           }
         }
       }
+    },
+    '/update-domain/{domain_id}': {
+      patch: {
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        summary: "Update a domain's status",
+        description:
+          "This endpoint updates a domain's status with the given status. Needed login with admin user ",
+        tags: ['Domain'],
+        parameters: [
+          {
+            name: 'domain_id',
+            in: 'path',
+            description: 'ID of domain to update',
+            required: true,
+            schema: {
+              type: 'string',
+              description: "The domain's id, it must exist",
+              required: true,
+              example: '63e41caae48b4160afb18192'
+            }
+          }
+        ],
+        requestBody: {
+          required: true,
+          $ref: '#/components/requestBodies/UpdateDomain'
+        },
+        responses: {
+          204: {
+            $ref: '#/components/responses/NoContent'
+          },
+          400: {
+            $ref: '#/components/responses/BadRequest'
+          },
+          401: {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          403: {
+            $ref: '#/components/responses/Forbidden'
+          },
+          500: {
+            $ref: '#/components/responses/ServerError'
+          }
+        }
+      }
     }
   },
   components: {
@@ -423,6 +471,24 @@ module.exports = {
           }
         },
         description: 'Domain object needed to create a new domain.',
+        required: true
+      },
+      UpdateDomain: {
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                status: {
+                  type: 'string',
+                  description: "The domain's status",
+                  example: 'Publicado'
+                }
+              }
+            }
+          }
+        },
+        description: 'Domain object needed to update a domain.',
         required: true
       }
     },
