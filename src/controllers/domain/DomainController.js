@@ -37,4 +37,9 @@ const store = async (request, response) => {
     )
 }
 
-module.exports = { store }
+const index = async (request, response) => {
+  const domains = await DomainService.loadAll()
+  return response.status(200).json(domains)
+}
+
+module.exports = { store, index }
