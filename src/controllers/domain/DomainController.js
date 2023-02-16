@@ -13,13 +13,14 @@ const store = async (request, response) => {
     return response.status(400).json({ error: err.errors })
   }
 
-  const domainExists = await DomainService.loadByName(request.body.name)
+  const { name, price } = request.body
+  const { userId, userName } = request
+
+  const domainExists = await DomainService.loadByName(name)
 
   if (domainExists) {
     return response.status(400).json({ error: 'Domain already exists' })
   }
-  const { name, price } = request.body
-  const { userId, userName } = request
 
   await DomainService.create({
     client: {
