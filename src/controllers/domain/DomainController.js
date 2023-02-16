@@ -54,8 +54,15 @@ const update = async (request, response) => {
     return response.status(400).json({ error: err.errors })
   }
 
-  const { status } = request.body
   const { domain_id } = request.params
+  const domain = await DomainService.loadById(domain_id)
+  if (!domain) {
+    return response
+      .status(400)
+      .json({ error: 'Make sure your domain is correct' })
+  }
+
+  const { status } = request.body
 
   try {
     await DomainService.updateOne(domain_id, status)
