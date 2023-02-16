@@ -199,6 +199,50 @@ module.exports = {
           }
         }
       }
+    },
+    '/delete-domain/{domain_id}': {
+      delete: {
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        summary: 'Delete a domain',
+        description:
+          'This endpoint delete a domain. Needed login with admin user ',
+        tags: ['Domain'],
+        parameters: [
+          {
+            name: 'domain_id',
+            in: 'path',
+            description: 'ID of domain to update',
+            required: true,
+            schema: {
+              type: 'string',
+              description: "The domain's id, it must exist",
+              required: true,
+              example: '63e41caae48b4160afb18192'
+            }
+          }
+        ],
+        responses: {
+          204: {
+            $ref: '#/components/responses/NoContent'
+          },
+          400: {
+            $ref: '#/components/responses/BadRequest'
+          },
+          401: {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          403: {
+            $ref: '#/components/responses/Forbidden'
+          },
+          500: {
+            $ref: '#/components/responses/ServerError'
+          }
+        }
+      }
     }
   },
   components: {
