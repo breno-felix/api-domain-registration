@@ -295,6 +295,58 @@ module.exports = {
           }
         }
       }
+    },
+    '/findByStatus-domain': {
+      get: {
+        security: [
+          {
+            bearerAuth: []
+          }
+        ],
+        summary: 'Find domain by status',
+        description:
+          'This endpoint find domain by status and send a csv file. Needed login.',
+        tags: ['Domain'],
+        parameters: [
+          {
+            name: 'status',
+            in: 'query',
+            description: 'Status of domain to find',
+            required: true,
+            schema: {
+              type: 'string',
+              description: "The domain's status, it must exist",
+              required: true,
+              example: 'Ativo'
+            }
+          }
+        ],
+        responses: {
+          200: {
+            description: 'Ok',
+            content: {
+              'application/octet-stream': {
+                schema: {
+                  type: 'string',
+                  format: 'binary'
+                },
+                examples: {
+                  domain_csv: {
+                    value:
+                      'Domínio,Proprietário,Data_da_Compra,Data_do_Vencimento,Valor_do_Registro,Status\nmeudominio.com,Breno Felix,16/02/2023,16/02/2024,26.9,Ativo\nseudominio.com,Fulano,23/01/2023,23/01/2024,25.9,Ativo\n'
+                  }
+                }
+              }
+            }
+          },
+          401: {
+            $ref: '#/components/responses/Unauthorized'
+          },
+          500: {
+            $ref: '#/components/responses/ServerError'
+          }
+        }
+      }
     }
   },
   components: {
